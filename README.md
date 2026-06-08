@@ -9,7 +9,7 @@
 ## 一键安装
 
 ```bash
-curl -sL https://github.com/Norcy/autoslash/blob/main/install.sh | bash
+curl -sL https://raw.githubusercontent.com/Norcy/AutoSlash/refs/heads/main/install.sh | bash
 ```
 
 **⚠️ 安装后必须授权：** 系统设置 → 隐私与安全性 → 辅助功能 → 勾选 Hammerspoon ✅，否则不生效
@@ -19,7 +19,7 @@ curl -sL https://github.com/Norcy/autoslash/blob/main/install.sh | bash
 ## 一键卸载
 
 ```bash
-curl -sL https://github.com/Norcy/autoslash/blob/main/uninstall.sh | bash
+curl -sL https://raw.githubusercontent.com/Norcy/AutoSlash/refs/heads/main/uninstall.sh | bash
 ```
 
 ## 自定义
