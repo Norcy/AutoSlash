@@ -50,7 +50,7 @@ if [ -f "$SCRIPT_DIR/SlashFix.lua" ]; then
   ok "SlashFix.lua 已从本地复制"
 else
   # 如果是远程执行，从 GitLab 下载
-  REMOTE_URL="https://git.corp.kuaishou.com/chenying09/autoslash/-/raw/master/SlashFix.lua"
+  REMOTE_URL="https://raw.githubusercontent.com/Norcy/AutoSlash/refs/heads/main/SlashFix.lua"
   info "从仓库下载 SlashFix.lua..."
   curl -sL "$REMOTE_URL" -o "$HAMMERSPOON_DIR/SlashFix.lua"
   ok "SlashFix.lua 已下载"
