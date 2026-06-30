@@ -26,14 +26,19 @@ curl -sL https://raw.githubusercontent.com/Norcy/AutoSlash/refs/heads/main/unins
 
 以下情况需要编辑 `~/.hammerspoon/SlashFix.lua`：
 
-- 你用的终端不在默认列表中（如 WezTerm）
+- 你用的终端不在默认列表中
 - 你用的 AI 工具关键词不在默认列表中（如 gemini）
 - 想临时关闭功能（`enabled = false`）
 - 想排查问题（`debug = true`，日志写入 `/tmp/slashfix.log`）
 
 ```lua
 M.config = {
-  aiTerminals = { ["iTerm2"] = true, ["Terminal"] = true, ["Warp"] = true, ["Alacritty"] = true, ["kitty"] = true, ["Hyper"] = true },
+  aiTerminals = {
+    ["iTerm"] = true, ["iTerm2"] = true, ["Terminal"] = true,
+    ["Warp"] = true, ["Alacritty"] = true, ["kitty"] = true,
+    ["Hyper"] = true, ["WezTerm"] = true, ["Ghostty"] = true,
+  },
+  aiApps      = { ["Codex"] = true, ["Claude"] = true },
   aiKeywords  = { "claude", "aider", "copilot", "cursor", "cline", "codex", "codeflicker", "cf" },
   enabled     = true,
   debug       = false,

@@ -6,12 +6,17 @@
 ---   ！ → !     （全角感叹号自动转半角）
 ---   ！！ → ！  （连续两个感叹号反转义为一个全角感叹号）
 ---
---- 条件：iTerm2 + 标题含 jarvis/claude/codex 等 + 中文输入法
+--- 条件：受支持的终端标题含 claude/codex 等，或已知 AI 客户端 + 中文输入法
 
 local M = {}
 
 M.config = {
-  aiTerminals = { ["iTerm2"] = true, ["Terminal"] = true, ["Warp"] = true, ["Alacritty"] = true, ["kitty"] = true, ["Hyper"] = true },
+  aiTerminals = {
+    ["iTerm"] = true, ["iTerm2"] = true, ["Terminal"] = true,
+    ["Warp"] = true, ["Alacritty"] = true, ["kitty"] = true,
+    ["Hyper"] = true, ["WezTerm"] = true, ["Ghostty"] = true,
+  },
+  aiApps = { ["Codex"] = true, ["Claude"] = true },
   aiKeywords = { "claude", "aider", "copilot", "cursor", "cline", "codex", "codeflicker", "cf" },
   enabled = true,
   showNotification = true,
@@ -32,16 +37,38 @@ local function log(msg)
   end
 end
 
+local function configuredAppContains(apps, value)
+  if not value then return false end
+  value = value:lower()
+  for name, enabled in pairs(apps or {}) do
+    if enabled and type(name) == "string" and name:lower() == value then
+      return true
+    end
+  end
+  return false
+end
+
+local function containsAIKeyword(value)
+  value = (value or ""):lower()
+  for _, kw in ipairs(M.config.aiKeywords or {}) do
+    if type(kw) == "string" and value:find(kw:lower(), 1, true) then
+      return true
+    end
+  end
+  return false
+end
+
 local function isAITerminal()
   local win = hs.window.focusedWindow()
   if not win then return false end
   local app = win:application()
-  if not app or not M.config.aiTerminals[app:name()] then return false end
-  local title = win:title():lower()
-  for _, kw in ipairs(M.config.aiKeywords) do
-    if title:find(kw, 1, true) then return true end
-  end
-  return false
+  if not app then return false end
+
+  local appName = app:name()
+  if configuredAppContains(M.config.aiApps, appName) then return true end
+  if not configuredAppContains(M.config.aiTerminals, appName) then return false end
+
+  return containsAIKeyword(win:title())
 end
 
 local function isChineseInput()
