@@ -25,8 +25,11 @@ fi
 
 # 3. 重载 Hammerspoon
 if pgrep -x Hammerspoon &>/dev/null; then
-  osascript -e 'tell application "Hammerspoon" to reload config'
-  ok "Hammerspoon 已重载"
+  if command -v hs &>/dev/null && hs -c "hs.reload()" &>/dev/null; then
+    ok "Hammerspoon 已重载"
+  elif killall Hammerspoon &>/dev/null && open -a Hammerspoon; then
+    ok "Hammerspoon 已重启并加载配置"
+  fi
 fi
 
 echo ""

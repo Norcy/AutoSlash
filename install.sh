@@ -77,10 +77,13 @@ fi
 
 # ── 5. 启动 / 重载 Hammerspoon ──────────────
 if pgrep -x Hammerspoon &>/dev/null; then
-  if command -v hs &>/dev/null; then
-    hs -c "hs.reload()" &>/dev/null && ok "Hammerspoon 已重载配置" || warn "重载失败，请手动点击菜单栏 → Reload Config"
+  if command -v hs &>/dev/null && hs -c "hs.reload()" &>/dev/null; then
+    ok "Hammerspoon 已重载配置"
+  elif killall Hammerspoon &>/dev/null && open -a Hammerspoon; then
+    # 已有 init.lua 可能未加载 hs.ipc，此时 hs CLI 无法连接。
+    ok "Hammerspoon 已重启并加载配置"
   else
-    warn "未找到 hs CLI，请手动点击菜单栏 Hammerspoon → Reload Config"
+    warn "重载失败，请手动点击菜单栏 Hammerspoon → Reload Config"
   fi
 else
   open -a Hammerspoon
